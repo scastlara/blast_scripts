@@ -53,6 +53,7 @@ my $comp = Hash::Compare->new(hash1 => $unwanted_seqs,
 
 my $filtered_fasta = $comp->get_unique("hash2");
 
+write_fasta($filtered_fasta);
 
 #================================================================================
 # FUNCTIONS
@@ -94,4 +95,15 @@ sub read_fasta {
 	} # while
 
 	return \%out_hash;
-}
+} # sub read_fasta
+
+#--------------------------------------------------------------------------------
+sub write_fasta {
+	my $fasta_info = shift;
+
+	foreach my $id (keys %{ $fasta_info }) {
+		print ">$id\n", $fasta_info->{$id}, "\n";
+	}
+
+	return;
+} # sub write_fasta
