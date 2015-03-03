@@ -25,11 +25,17 @@ use warnings;
 use strict;
 use Hash::Compare;
 use Fasta::Reader;
+use Getopt::Long;
 
 die "\nYou have to introduce two command line arguments:\n" .
 	"\t- File with ids to remove from fasta (on the first column)\n" .
 	"\t- Fasta file you want to filter\n\n"
-	unless (@ARGV == 2);
+	unless (@ARGV >= 2);
+
+
+my $negate = '';	# option variable with default value (false)
+
+GetOptions('negate' => \$negate);
 
 
 #================================================================================
@@ -51,8 +57,13 @@ my $fasta_seqs    = $fasta_obj->seqs;
 my $comp = Hash::Compare->new(hash1 => $unwanted_seqs, 
                               hash2 => $fasta_seqs
                              );
+my $method = "merge";
 
-my $filtered_fasta = $comp->get_unique("hash2");
+if ($negate) {
+	$method = "get_unique";
+}
+
+my $filtered_fasta = $comp->$method("hash2");
 
 write_fasta($filtered_fasta);
 
