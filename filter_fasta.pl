@@ -24,6 +24,7 @@
 use warnings;
 use strict;
 use Hash::Compare;
+use Fasta::Reader;
 
 die "\nYou have to introduce two command line arguments:\n" .
 	"\t- File with ids to remove from fasta (on the first column)\n" .
@@ -44,7 +45,8 @@ my $fasta_file  = shift @ARGV;
 #================================================================================
 
 my $unwanted_seqs = read_filter($filter_file);
-my $fasta_seqs    = read_fasta($fasta_file);
+my $fasta_obj     = Fasta::Reader->new(file => "$fasta_file");
+my $fasta_seqs    = $fasta_obj->seqs;
 
 my $comp = Hash::Compare->new(hash1 => $unwanted_seqs, 
                               hash2 => $fasta_seqs
@@ -106,3 +108,5 @@ sub write_fasta {
 
 	return;
 } # sub write_fasta
+
+
