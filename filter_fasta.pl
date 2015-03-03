@@ -90,27 +90,6 @@ sub read_filter {
 } # sub read_filter
 
 #--------------------------------------------------------------------------------
-sub read_fasta {
-	my $fasta_file = shift;
-	my %out_hash = ();
-
-	open my $FASTA, "<", $fasta_file
-		or die "Can't open $fasta_file : $!\n";	
-
-	local $/ = ">";
-
-	while (<$FASTA>) {
-		chomp;
-		my ($id, @seq) = split /\n/, $_;
-		next unless $id;
-		$out_hash{$id} = join "\n", @seq;
-
-	} # while
-
-	return \%out_hash;
-} # sub read_fasta
-
-#--------------------------------------------------------------------------------
 sub write_fasta {
 	my $fasta_info = shift;
 
