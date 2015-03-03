@@ -28,6 +28,7 @@ use Fasta::Reader;
 use Getopt::Long;
 
 die "\nYou have to introduce two command line arguments:\n" .
+	"\t- <options> (not required, by default negate is FALSE)\n" .
 	"\t- File with ids to remove from fasta (on the first column)\n" .
 	"\t- Fasta file you want to filter\n\n"
 	unless (@ARGV >= 2);
@@ -119,5 +120,3 @@ sub write_fasta {
 
 	return;
 } # sub write_fasta
-
-
